@@ -41,10 +41,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/edit-post/:slug",
-        element: <EditPost />,
+        element: <EditPost url={url} />,
       },
       {
-        path: "/post/:slug",
+        path: "/post/:id",
         element: <Post url={url} />,
       },
     ],

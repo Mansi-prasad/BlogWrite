@@ -1,12 +1,13 @@
 import userModel from "../models/usermodel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import verifyToken from "../middleware/verifytoken.js";
+
+// check for token belongs to valid user,fetch current user's data,cnfirm that the user is still authenticated. 
 const verify = async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id).select("-password");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" }); // maybe deleted from database
     }
     return res.status(200).json({ success: true, user });
   } catch (err) {
@@ -32,6 +33,7 @@ const loginUser = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Invalid password." });
     }
+    // const token=jwt.sign({_id:userModel._id},process.env.JWT_SECRET,{expiresIn:"1h"});
     const token = createToken(user._id);
     res.json({ success: true, token });
   } catch (err) {
@@ -41,7 +43,7 @@ const loginUser = async (req, res) => {
 };
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
 //Register user
@@ -57,8 +59,7 @@ const registerUser = async (req, res) => {
   }
   // Validating User's email and password.
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // const emailTri = email.trim();
-  if (!emailRegex.test(email)) {
+  if (!emailRegex.test(email.trim())) {
     return res.status(400).json({
       success: false,
       message: "Invalid email format!",

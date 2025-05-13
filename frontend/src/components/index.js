@@ -12,7 +12,6 @@ import Signup from "../pages/Signup.jsx";
 import Login from "../pages/Login.jsx";
 import PostForm from "./postform/PostForm";
 import PostCard from "./PostCard";
-import AuthLayout from "./AuthLayout";
 import AddPost from "../pages/AddPost";
 import AllPosts from "../pages/AllPosts";
 import EditPost from "../pages/EditPost";
@@ -33,7 +32,6 @@ export {
   PostForm,
   PostCard,
   AddPost,
-  AuthLayout,
   AllPosts,
   EditPost,
   Home,

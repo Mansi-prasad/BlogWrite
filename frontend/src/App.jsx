@@ -8,6 +8,7 @@ function App({ url }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
+    //  validate that token when the user reloads the page or reopens the app — to confirm the user is still authenticated. (token maybe expired)
     const checkAuth = async () => {
       if (token) {
         try {
@@ -15,6 +16,7 @@ function App({ url }) {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(res.data.user);
+          console.log("user: ", res.data.user);
         } catch (err) {
           console.log("Token invalid or expired");
           setToken("");

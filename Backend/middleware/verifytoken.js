@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+// protect routes by verifying that the incoming request has a valid JWT
 
 // reads authorization header, extracts the JWT token
 const verifyToken = (req, res, next) => {
@@ -6,10 +7,10 @@ const verifyToken = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "No token provided" });
   }
-  const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ")[1]; // Extracts the actual token string from the header(Bearer abc123.token)
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // sets req.user.id = user ID from token
+    req.user = decoded; // sets decoded user data to the req.user object
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });

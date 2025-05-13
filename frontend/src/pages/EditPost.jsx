@@ -3,7 +3,7 @@ import { Container, PostForm } from "../components/index";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-const EditPost = () => {
+const EditPost = ({url}) => {
   const [post, setPost] = useState(null);
   const { _id } = useParams();
   const navigate = useNavigate();

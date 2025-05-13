@@ -11,7 +11,6 @@ const Home = ({ url }) => {
       return;
     } else {
       try {
-        console.log("Token:", token);
         const res = await axios.get(`${url}/api/post/posts`, {
           headers: {
             Authorization: `Bearer ${token}`,
