@@ -9,7 +9,7 @@ const PostCard = ({ _id, postImage, title }) => {
             <img
               src={`${import.meta.env.VITE_BACKEND_URL}/images/${postImage}`}
               alt={title}
-              className="rounded-xl"
+              className="rounded-xl w-full h-48"
             />
           </div>
           <h2 className="text-xl font-bold">{title}</h2>

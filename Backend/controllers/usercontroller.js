@@ -2,19 +2,6 @@ import userModel from "../models/usermodel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-// check for token belongs to valid user,fetch current user's data,cnfirm that the user is still authenticated. 
-const verify = async (req, res) => {
-  try {
-    const user = await userModel.findById(req.user._id).select("-password");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" }); // maybe deleted from database
-    }
-    return res.status(200).json({ success: true, user });
-  } catch (err) {
-    res.status(500).json({ message: "Server error!" });
-  }
-};
-
 //login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -95,4 +82,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { loginUser, createToken, registerUser, verify };
+export { loginUser, createToken, registerUser };

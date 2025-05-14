@@ -27,7 +27,9 @@ const createPost = async (req, res) => {
   console.log("User info:", req.user); // decoded token payload(data)
   try {
     await post.save();
-    return res.json({ success: true, message: "Post Added Successfully!" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Post Added Successfully!" });
   } catch (err) {
     console.error("Error while saving post:", err);
     return res
@@ -40,10 +42,12 @@ const createPost = async (req, res) => {
 const getPosts = async (req, res) => {
   try {
     const posts = await postModel.find({});
-    res.json({ success: true, data: posts });
+    res.status(200).json({ success: true, data: posts });
   } catch (err) {
     // console.log(err);
-    return res.json({ success: false, message: "Error! to get the posts" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Error! to get the posts" });
   }
 };
 // remove the post from DB
@@ -106,8 +110,7 @@ const getUserPosts = async (req, res) => {
     const userId = req.user.id;
     // Fetch posts created by the logged-in user
     const posts = await postModel.find({ user: userId });
-
-    res.json({ success: true, data: posts });
+    res.status(200).json({ success: true, postData: posts });
   } catch (err) {
     console.error(err);
     return res
@@ -115,4 +118,19 @@ const getUserPosts = async (req, res) => {
       .json({ success: false, message: "Error fetching user's posts" });
   }
 };
-export { createPost, updatePost, deletePost, getPosts, getUserPosts };
+const getPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await postModel.findById(id);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post not found" });
+    }
+    res.json({ success: true, post: post });
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    return res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+export { createPost, updatePost, deletePost, getPosts, getUserPosts, getPost };

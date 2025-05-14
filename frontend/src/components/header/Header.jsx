@@ -1,13 +1,13 @@
 import { Container, Logo, LogoutBtn } from "../index";
 import { Link, useNavigate } from "react-router-dom";
-const Header = ({ token, user, setToken }) => {
+const Header = ({ token, setToken }) => {
   // console.log("token:", token);
   return (
     <>
-      <header className="py-3 shadow bg-rose-300">
+      <header className="py-3 shadow bg-indigo-300 sticky top-0 z-50">
         <Container>
           <nav className="flex">
-            <div className="mr-4">
+            <div className="mr-4 w-44">
               <Link to="/">
                 <Logo />
               </Link>
@@ -39,7 +39,6 @@ const Header = ({ token, user, setToken }) => {
             </ul>
           </nav>
         </Container>
-        
       </header>
     </>
   );

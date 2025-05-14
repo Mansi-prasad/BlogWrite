@@ -40,16 +40,17 @@ const router = createBrowserRouter([
         element: <AddPost url={url} />,
       },
       {
-        path: "/edit-post/:slug",
+        path: "/edit-post/:_id",
         element: <EditPost url={url} />,
       },
       {
-        path: "/post/:id",
+        path: "/post/:_id",
         element: <Post url={url} />,
       },
     ],
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToastContainer />
