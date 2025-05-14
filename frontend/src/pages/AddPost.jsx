@@ -5,7 +5,6 @@ const AddPost = ({ url }) => {
     <div className="py-8">
       <Container>
         <PostForm url={url}/>
-      
       </Container>
     </div>
   );

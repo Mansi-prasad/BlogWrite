@@ -3,58 +3,58 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Btn, Container } from "../components/index";
 import parse from "html-react-parser";
 import axios from "axios";
-import {toast} from "react-toastify";
-const Post = ({url,token ,setToken}) => {
+import { toast } from "react-toastify";
+const Post = ({ url, token, setToken }) => {
   const [post, setPost] = useState(null);
   const { _id } = useParams();
   const navigate = useNavigate();
-  const fetchUser= async()=>{
-  }
+  // const fetchUser= async()=>{
+  // }
   const fetchPost = async () => {
-      try {
-        const res = await axios.get(`${url}/api/post/${_id}`,{
-          headers: { Authorization: ` ${token}` },
-        });
-        if (res.data.success) {
-          setPost(res.data.post);
-        } else {
-          toast.error("Error! to load the post");
-          navigate("/");
-        }
-      } catch (error) {
-        console.log("Error to fetch posts: ", error);
-        toast.error("Server error! please try again");
+    try {
+      const res = await axios.get(`${url}/api/post/${_id}`, {
+        headers: { Authorization: ` ${token}` },
+      });
+      if (res.data.success) {
+        setPost(res.data.post);
+      } else {
+        toast.error("Error! to load the post");
         navigate("/");
       }
-    };
+    } catch (error) {
+      console.log("Error to fetch posts: ", error);
+      toast.error("Server error! please try again");
+      navigate("/");
+    }
+  };
   useEffect(() => {
-    if (slug) {
+    if (_id) {
       // fetchUser();
-     fetchPost();
+      fetchPost();
     } else {
       navigate("/");
     }
-  }, [slug, navigate, url, navigate, setToken]);
+  }, [_id, navigate, url, navigate, setToken]);
 
   const deletePost = () => {
     // need to change
     const deletePost = async () => {
-    try {
-      await axios.delete(`${url}/api/post/delete/${post._id}`, {
-        headers: { Authorization: ` ${token}` },
-      });
-      navigate("/");
-    } catch (err) {
-      console.error("Failed to delete post", err);
-    }
-  };
+      try {
+        await axios.delete(`${url}/api/post/delete/${post._id}`, {
+          headers: { Authorization: ` ${token}` },
+        });
+        navigate("/");
+      } catch (err) {
+        console.error("Failed to delete post", err);
+      }
+    };
   };
   return post ? (
     <div className="py-8">
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
-           src={`${url}/${post.postImage}`}
+            src={`${url}/${post.postImage}`}
             alt={post.title}
             className="rounded-xl"
           />

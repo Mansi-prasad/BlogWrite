@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <Signup url={url} />,
       },
       {
-        path: "/all-posts",
+        path: "/my-posts",
         element: <AllPosts url={url} />,
       },
       {

@@ -10,6 +10,7 @@ const verifyToken = (req, res, next) => {
   const token = authHeader.split(" ")[1]; // Extracts the actual token string from the header(Bearer abc123.token)
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    //  every request hitting protected route has access to req.user.id (from jwt)
     req.user = decoded; // sets decoded user data to the req.user object
     next();
   } catch (err) {

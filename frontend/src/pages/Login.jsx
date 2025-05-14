@@ -14,7 +14,6 @@ const Login = ({ url }) => {
     setError("");
     try {
       const res = await axios.post(url + "/api/user/login", data);
-      console.log("res: ", res);
       if (res.data.success) {
         const token = res.data.token;
         setToken(token);

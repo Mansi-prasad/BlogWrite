@@ -28,7 +28,7 @@ const Header = ({ token, user, setToken }) => {
               ) : (
                 <>
                   <li>
-                    <Link to="/all-posts">All Posts</Link>
+                    <Link to="/my-posts">All Posts</Link>
                   </li>
                   <li>
                     <Link to="/add-post">Add Post</Link>
@@ -39,6 +39,7 @@ const Header = ({ token, user, setToken }) => {
             </ul>
           </nav>
         </Container>
+        
       </header>
     </>
   );

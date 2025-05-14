@@ -6,6 +6,7 @@ const postSchema = new mongoose.Schema(
     slug: { type: String, required: true, unique: true },
     status: { type: String, required: true },
     postImage: { type: String, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true } // automatic createdAt and updatedAt fields
 );

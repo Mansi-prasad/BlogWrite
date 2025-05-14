@@ -9,7 +9,7 @@ const AllPosts = ({ url }) => {
   const { token } = useOutletContext();
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`${url}/api/post/posts`, {
+      const res = await axios.get(`${url}/api/post/posts/my-posts`, {
         //Sends the JWT token with the request, allowing access to protected routes.
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const AllPosts = ({ url }) => {
           {posts.map((post) => {
             return (
               <div key={post._id} className="p-2 w-1/4">
-                <PostCard post={post} />
+                <PostCard {...post} />
               </div>
             );
           })}

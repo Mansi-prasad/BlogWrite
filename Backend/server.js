@@ -10,7 +10,6 @@ const port = process.env.PORT || 4000;
 //middleware
 app.use(express.json()); // middleware, allows server to parse incoming JSON request bodies.
 app.use(cors()); //  the cors middleware to allow all cross-origin requests.
-
 //DB Connection
 connectDB();
 

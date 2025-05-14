@@ -1,11 +1,13 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Btn, Input, SelectField, RTE } from "../index";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useOutletContext } from "react-router-dom";
 
 const PostForm = ({ url, post }) => {
   const [postImage, setPostImage] = useState(false);
+  const { token } = useOutletContext();
   const { register, handleSubmit, watch, setValue, control, getValues, reset } =
     useForm({
       defaultValues: {
@@ -22,12 +24,14 @@ const PostForm = ({ url, post }) => {
       postData.append("content", data.content);
       postData.append("slug", data.slug);
       postData.append("status", data.status);
-      if (data.image?.[0]) {
-        postData.append("image", data.image[0]);
+      if (data.postImage?.[0]) {
+        postData.append("postImage", data.postImage[0]);
       }
+      // console.log("Submitted form data:", data);
       let res;
       if (post) {
         res = await axios.put(`${url}/api/post/update/${post._id}`, postData, {
+          // identifies the currently logged-in user.
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,6 +58,7 @@ const PostForm = ({ url, post }) => {
         toast.error(res.data.message);
       }
     } catch (error) {
+      console.error("Response:", error.response);
       toast.error("Somthing went wrong! Please try again.");
     }
   };
@@ -80,7 +85,7 @@ const PostForm = ({ url, post }) => {
 
   return (
     <>
-      <h1>post form</h1>
+      <h1 className="text-center font-bold text-3xl">Post form</h1>
       <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
         <div className="w-2/3 px-2">
           <Input
@@ -104,16 +109,17 @@ const PostForm = ({ url, post }) => {
             label="Content: "
             name="content"
             control={control}
-            defaultValues={getValues("content")}
+            // defaultValues={getValues("content")}
           />
         </div>
         <div className="w-1/3 px-2">
           <Input
             label="Featured Image: "
             type="file"
+            name="postImage"
             className="mb-4"
             accept="image/png, image/jpg, image/jpeg, image/gif"
-            {...register("image", { required: !post })}
+            {...register("postImage", { required: !post })}
           />
           {post && (
             <div className="w-full mb-4">
@@ -129,7 +135,7 @@ const PostForm = ({ url, post }) => {
             </div>
           )}
           <SelectField
-            options={["actiove", "inactive"]}
+            options={["active", "inactive"]}
             label="Status"
             className="mb-4"
             {...register("status", { required: true })}

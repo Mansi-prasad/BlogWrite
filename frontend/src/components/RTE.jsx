@@ -9,6 +9,7 @@ const RTE = ({ name, control, label, defaultValue = "" }) => {
       <Controller
         name={name || "content"}
         control={control}
+        // defaultValue=""
         render={({ field: { onChange } }) => (
           <Editor
             apiKey={api}

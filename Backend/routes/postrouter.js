@@ -4,6 +4,7 @@ import {
   updatePost,
   deletePost,
   getPosts,
+  getUserPosts,
 } from "../controllers/postcontroller.js";
 import verifyToken from "../middleware/verifytoken.js";
 import multer from "multer";
@@ -23,7 +24,7 @@ const upload = multer({ storage: storage });
 postRouter.post("/create", verifyToken, upload.single("postImage"), createPost);
 
 postRouter.get("/posts", verifyToken, getPosts);
-
+postRouter.get("/posts/my-posts", verifyToken, getUserPosts);
 postRouter.delete("/delete/:id", verifyToken, deletePost);
 
 postRouter.put(

@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import postModel from "../models/postmodel.js";
 import fs from "fs";
-
 //add post
 const createPost = async (req, res) => {
   // console.log("File:", req.file);
   // console.log("Body:", req.body);
+  // console.log("user: ", req.user);
   if (!req.file) {
     // console.error("Multer did not process the file upload.");
     return res
@@ -20,9 +20,12 @@ const createPost = async (req, res) => {
     slug: req.body.slug,
     status: req.body.status,
     postImage: image_filename,
+    // req.user set by authentication middleware
+    // retrieves the user ID from the token
+    user: req.user.id,
   });
+  console.log("User info:", req.user); // decoded token payload(data)
   try {
-    //post saved to the database.
     await post.save();
     return res.json({ success: true, message: "Post Added Successfully!" });
   } catch (err) {
@@ -75,8 +78,8 @@ const updatePost = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Invalid Post ID" });
     }
-    const { title, content, slug, status } = req.body;
-    let PostData = { title, content, slug, status };
+    const { title, content, slug, status, user } = req.body;
+    let PostData = { title, content, slug, status, user };
 
     if (req.file) {
       PostData.postImage = `${req.file.filename}`;
@@ -85,7 +88,6 @@ const updatePost = async (req, res) => {
     const updatedPost = await postModel.findByIdAndUpdate(id, PostData, {
       new: true,
     });
-
     if (!updatedPost) {
       return res
         .status(404)
@@ -98,5 +100,19 @@ const updatePost = async (req, res) => {
       .json({ success: false, message: "Server Error", error: error.message });
   }
 };
+// get users controller
+const getUserPosts = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    // Fetch posts created by the logged-in user
+    const posts = await postModel.find({ user: userId });
 
-export { createPost, updatePost, deletePost, getPosts };
+    res.json({ success: true, data: posts });
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Error fetching user's posts" });
+  }
+};
+export { createPost, updatePost, deletePost, getPosts, getUserPosts };
