@@ -4,19 +4,27 @@ import { Btn, Input, SelectField, RTE } from "../index";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useOutletContext } from "react-router-dom";
-
 const PostForm = ({ url, post }) => {
-  const [postImage, setPostImage] = useState(false);
+  const [postImage, setPostImage] = useState(null);
   const { token } = useOutletContext();
+  const [previewImage, setPreviewImage] = useState(false);
   const { register, handleSubmit, watch, setValue, control, getValues, reset } =
     useForm({
       defaultValues: {
         title: post?.title || "",
         slug: post?.slug || "",
+        postImage: post?.postImage || "",
         content: post?.content || "",
         status: post?.status || "active",
       },
     }); // provide so many features
+  console.log("postImage:", post.postImage);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if ("file") {
+      setPreviewImage(file); // Set selected file
+    }
+  };
   const submit = async (data) => {
     try {
       const postData = new FormData();
@@ -114,21 +122,26 @@ const PostForm = ({ url, post }) => {
         </div>
         <div className="w-1/3 px-2">
           <Input
-            label="Featured Image: "
+            label="Image: "
             type="file"
             name="postImage"
             className="mb-4"
             accept="image/png, image/jpg, image/jpeg, image/gif"
             {...register("postImage", { required: !post })}
+            onChange={handleImageChange}
           />
           {post && (
             <div className="w-full mb-4">
               <img
-                className="rounded-lg"
+                className="rounded-lg h-50"
                 src={
-                  post.postImage.startsWith("http")
-                    ? post.postImage
-                    : `${url}/${post.postImage}`
+                  previewImage
+                    ? URL.createObjectURL(previewImage) // Show selected image if user uploads new one
+                    : post?.postImage
+                    ? post.postImage.startsWith("http")
+                      ? post.postImage
+                      : `${url}/images/${post.postImage}`
+                    : ""
                 }
                 alt={post.title}
               />

@@ -8,7 +8,6 @@ const AllPosts = ({ url }) => {
   const navigate = useNavigate();
   const { token } = useOutletContext();
   const fetchPosts = async () => {
-    
     try {
       const res = await axios.get(`${url}/api/post/my-posts`, {
         //Sends the JWT token with the request, allowing access to protected routes.
@@ -23,7 +22,9 @@ const AllPosts = ({ url }) => {
       }
     } catch (error) {
       console.log("Error to fetch posts: ", error);
-      toast.error("Server error! please try again");
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred!";
+      toast.error(errorMessage);
     }
   };
   useEffect(() => {

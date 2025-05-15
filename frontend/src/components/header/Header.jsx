@@ -1,6 +1,6 @@
 import { Container, Logo, LogoutBtn } from "../index";
-import { Link, useNavigate } from "react-router-dom";
-const Header = ({ token, setToken }) => {
+import { Link } from "react-router-dom";
+const Header = ({ token, setToken, setUser }) => {
   // console.log("token:", token);
   return (
     <>
@@ -33,7 +33,7 @@ const Header = ({ token, setToken }) => {
                   <li>
                     <Link to="/add-post">Add Post</Link>
                   </li>
-                  <LogoutBtn setToken={setToken} />
+                  <LogoutBtn setToken={setToken} setUser={setUser} />
                 </>
               )}
             </ul>

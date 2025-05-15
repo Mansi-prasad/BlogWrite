@@ -23,7 +23,9 @@ const Home = ({ url }) => {
         }
       } catch (error) {
         console.log("Error to fetch posts: ", error);
-        toast.error("Server error! please try again");
+        const errorMessage =
+          error.response?.data?.message || "An unexpected error occurred!";
+        toast.error(errorMessage);
       }
     }
   };

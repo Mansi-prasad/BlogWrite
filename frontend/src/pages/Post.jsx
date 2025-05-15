@@ -31,29 +31,28 @@ const Post = ({ url }) => {
       navigate("/");
     }
   };
+
+  const deletePost = async () => {
+    try {
+      const res = await axios.delete(`${url}/api/post/delete/${post._id}`, {
+        headers: { Authorization: ` ${token}` },
+      });
+      if (res.data.success) {
+        toast.success("Post deleted successfull!");
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Failed to delete post", err);
+      toast.error("Error! to delete post");
+    }
+  };
   useEffect(() => {
     if (_id) {
-      // fetchUser();
       fetchPost();
     } else {
       navigate("/");
     }
   }, [_id, navigate, url, navigate, setToken]);
-
-  const deletePost = () => {
-    // need to change
-    const deletePost = async () => {
-      try {
-        await axios.delete(`${url}/api/post/delete/${post._id}`, {
-          headers: { Authorization: ` ${token}` },
-        });
-        navigate("/");
-      } catch (err) {
-        console.error("Failed to delete post", err);
-      }
-    };
-  };
-  console.log("post: ", post);
   return post ? (
     <div className="py-8">
       <Container>
@@ -63,9 +62,9 @@ const Post = ({ url }) => {
             alt={post.title}
             className="rounded-xl"
           />
-          {user && (
+          {user && post.user === user._id && (
             <div className="absolute right-6 top-6">
-              <Link to={`/edit-post/${post.$id}`}>
+              <Link to={`/edit-post/${post._id}`}>
                 <Btn className="mr-3" bgColor="bg-green-500">
                   Edit
                 </Btn>

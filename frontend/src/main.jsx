@@ -17,7 +17,7 @@ const url = `${import.meta.env.VITE_BACKEND_URL}`;
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App url={url} />,
+    element: <App />,
     children: [
       {
         path: "/",
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <AddPost url={url} />,
       },
       {
-        path: "/edit-post/:_id",
+        path: "/edit-post/:id",
         element: <EditPost url={url} />,
       },
       {

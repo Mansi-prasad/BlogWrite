@@ -6,28 +6,27 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const Login = ({ url }) => {
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const { setToken } = useOutletContext();
+  const { setToken, setUser, user } = useOutletContext();
   const { register, handleSubmit } = useForm(); // handleSubmit (is an event) accept user defined function as an argument to handle form submit
 
   const handleLogin = async (data) => {
-    setError("");
     try {
       const res = await axios.post(url + "/api/user/login", data);
       if (res.data.success) {
         const token = res.data.token;
         setToken(token);
+        setUser(res.data.user); // currently logged-in user's data
         toast.success(res.data.message);
         navigate("/");
       } else {
         toast.error(error.message);
       }
     } catch (error) {
-      setError(error.message);
-      toast.error(res.data.message);
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
     }
   };
-
   return (
     <div className="py-8">
       <div className=" flex items-center justify-center w-full">
@@ -51,7 +50,6 @@ const Login = ({ url }) => {
               Sign up
             </Link>
           </p>
-          {error && <p className="text-red-500 text-center mt-8">{error}</p>}
           <form action="" onSubmit={handleSubmit(handleLogin)} className="mt-8">
             <div className="space-y-5">
               <Input

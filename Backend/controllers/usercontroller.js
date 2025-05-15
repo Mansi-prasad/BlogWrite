@@ -8,6 +8,7 @@ const loginUser = async (req, res) => {
   console.log(req.body);
   try {
     const user = await userModel.findOne({ email });
+
     if (!user) {
       return res
         .status(400)
@@ -22,10 +23,11 @@ const loginUser = async (req, res) => {
     }
     // const token=jwt.sign({_id:userModel._id},process.env.JWT_SECRET,{expiresIn:"1h"});
     const token = createToken(user._id);
-    res.json({ success: true, token });
+    const { _id, name } = user;
+    res.status(200).json({ success: true, token, user: { _id, name } });
   } catch (err) {
     console.log(err.message);
-    res.json({ success: false, message: "ERROR!" });
+    res.status(500).json({ success: false, message: "ERROR!" });
   }
 };
 
