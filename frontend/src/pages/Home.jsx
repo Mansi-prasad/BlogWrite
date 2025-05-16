@@ -24,7 +24,7 @@ const Home = ({ url }) => {
       } catch (error) {
         console.log("Error to fetch posts: ", error);
         const errorMessage =
-          error.response?.data?.message || "An unexpected error occurred!";
+          error.response?.data?.message || "An error occurred!";
         toast.error(errorMessage);
       }
     }

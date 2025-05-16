@@ -70,11 +70,6 @@ const deletePost = async (req, res) => {
     return res
       .status(200)
       .json({ success: true, message: "Post Removed from the DB" });
-    // } else {
-    //   return res
-    //     .status(500)
-    //     .json({ success: false, message: "Error! to delete post!" });
-    // }
   } catch (err) {
     console.log(err);
     return res.json({ success: false, message: "Server Error!" });

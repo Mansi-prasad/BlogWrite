@@ -71,7 +71,7 @@ const PostForm = ({ url, post }) => {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.error("Response:", error.response);
+      console.error("Response:", error.res);
       toast.error("Somthing went wrong! Please try again.");
     }
   };
@@ -95,7 +95,6 @@ const PostForm = ({ url, post }) => {
       subscription.unsubscribe();
     };
   }, [watch, slugTransform, setValue]);
-
   return (
     <>
       <h1 className="text-center font-bold text-3xl">Post form</h1>

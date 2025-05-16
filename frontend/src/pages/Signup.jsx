@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 const Signup = ({ url }) => {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setToken } = useOutletContext();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const handleSignup = async (data) => {
-    setError("");
     try {
       const res = await axios.post(`${url}/api/user/signup`, data);
       if (res.data.success) {
@@ -19,8 +21,10 @@ const Signup = ({ url }) => {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
-      toast.error(error.message);
+      const message =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
+      toast.error(message);
     }
   };
   return (
@@ -46,27 +50,34 @@ const Signup = ({ url }) => {
               Login
             </Link>
           </p>
-          {error && <p className="text-red-500 text-center mt-8">{error}</p>}
+          {/* {["name", "email", "password"].map((field) =>
+            errors[field] ? (
+              <p key={field} className="text-red-500 text-sm py-2">
+                {errors[field].message}
+              </p>
+            ) : null
+          )} */}
+
           <form onSubmit={handleSubmit(handleSignup)}>
             <div className="space-y-5">
               <Input
                 label="Full Name: "
                 type="text"
                 name="fullname"
-                
-                
                 placeholder="Enter full name"
-                {...register("name", { required: true })}
+                {...register("name", { required: "Full name is required" })}
               />
+              {/* {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )} */}
               <Input
                 label="Email: "
                 type="email"
                 name="email"
-               
                 placeholder="Enter your email"
                 //syntax for react-hook-form register for handle input.
                 {...register("email", {
-                  required: true,
+                  required: "Email is required",
                   validate: {
                     matchPattern: (val) =>
                       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
@@ -75,23 +86,30 @@ const Signup = ({ url }) => {
                   },
                 })}
               />
+              {/* {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )} */}
               <Input
                 label="Password: "
                 type="password"
                 name="password"
-                
                 placeholder="Enter password"
                 {...register("password", {
-                  required: true,
+                  required: "Password is required",
                   validate: {
                     matchPattern: (value) =>
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(
                         value
                       ) ||
-                      "Ensures the password is at least 8 characters long and must contains one uppercase character, lowercase character, digit and special character. ",
+                      "Password must be at least 8 characters long and must contains one uppercase character, lowercase character, digit and special character.",
                   },
                 })}
               />
+              {/* {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )} */}
               <Btn type="submit" className="w-full">
                 Sign up
               </Btn>

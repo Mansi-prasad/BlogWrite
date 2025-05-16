@@ -28,8 +28,9 @@ const EditPost = ({ url }) => {
       }
     } catch (err) {
       console.error("Failed to load post: ", err);
-      toast.error("Server error! please try again");
-      navigate("/");
+      const message =
+        err.response?.data?.message || "Error to update post! Please try again.";
+      toast.error(message);
     }
   };
   useEffect(() => {

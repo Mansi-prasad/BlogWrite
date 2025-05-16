@@ -16,14 +16,14 @@ const AllPosts = ({ url }) => {
         },
       });
       if (res.data.success) {
+        c;
         setPosts(res.data.postData);
       } else {
         toast.error("Error! to load the post");
       }
     } catch (error) {
       console.log("Error to fetch posts: ", error);
-      const errorMessage =
-        error.response?.data?.message || "Error occurred!";
+      const errorMessage = error.response?.data?.message || "Error occurred!";
       toast.error(errorMessage);
     }
   };
@@ -34,21 +34,31 @@ const AllPosts = ({ url }) => {
     }
     fetchPosts();
   }, [token]);
-  return (
-    <div className="w-full py-8">
-      <Container>
-        <div className="flex flex-wrap">
-          {posts.map((post) => {
-            return (
-              <div key={post._id} className="p-2 w-1/4">
-                <PostCard {...post} url={url} />
-              </div>
-            );
-          })}
-        </div>
-      </Container>
-    </div>
-  );
+  if (posts.length > 0) {
+    return (
+      <div className="w-full py-8">
+        <Container>
+          <div className="flex flex-wrap">
+            {posts.map((post) => {
+              return (
+                <div key={post._id} className="p-2 w-1/4">
+                  <PostCard {...post} url={url} />
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </div>
+    );
+  } else {
+    return (
+      <div className="w-full py-8">
+        <Container>
+          <p className="text-2xl font-semibold p-4">You have no posts</p>
+        </Container>
+      </div>
+    );
+  }
 };
 
 export default AllPosts;

@@ -1,4 +1,4 @@
-// centralized components to import easily in to another components
+// centralized components to import easily into another components
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
 import Container from "./container/Container";

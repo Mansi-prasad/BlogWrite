@@ -83,5 +83,4 @@ const Post = ({ url }) => {
     </div>
   ) : null;
 };
-
 export default Post;

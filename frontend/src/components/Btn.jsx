@@ -9,7 +9,7 @@ const Btn = ({
 }) => {
   return (
     <button
-      type="submit"
+      type={type}
       className={`px-4 py-2 rounded-lg ${className} ${textColor} ${bgColor} ${type}`}
       {...props}
     >
