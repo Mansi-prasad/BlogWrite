@@ -58,13 +58,15 @@ const deletePost = async (req, res) => {
       return res.status(400).json({ message: "Post not found" });
     }
     //delete the post image
-    fs.unlink(`uploads/${post.postImage}`, (err) => {
-      if (err) {
-        return res
-          .status(400)
-          .json({ message: "Error! to delete post image." });
-      }
-    });
+    if (post.postImage) {
+      fs.unlink(`uploads/${post.postImage}`, (err) => {
+        if (err) {
+          return res
+            .status(400)
+            .json({ message: "Error! to delete post image." });
+        }
+      });
+    }
     //delete the post data
     await postModel.findByIdAndDelete(req.params.id);
     return res
@@ -118,7 +120,14 @@ const getUserPosts = async (req, res) => {
     const userId = req.user.id;
     // Fetch posts created by the logged-in user
     const posts = await postModel.find({ user: userId });
-    res.status(200).json({ success: true, postData: posts });
+    if (posts) {
+      res.status(200).json({
+        success: true,
+        postData: posts,
+        message:
+          posts.length === 0 ? "No posts found" : "Posts fetched successfully",
+      });
+    }
   } catch (err) {
     console.error(err);
     return res

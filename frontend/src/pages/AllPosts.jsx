@@ -16,8 +16,10 @@ const AllPosts = ({ url }) => {
         },
       });
       if (res.data.success) {
-        c;
         setPosts(res.data.postData);
+        if (res.data.postData.length === 0) {
+          toast.info(res.data.message); // "No posts found"
+        }
       } else {
         toast.error("Error! to load the post");
       }

@@ -4,7 +4,7 @@ const PostCard = ({ _id, postImage, title }) => {
   return (
     <>
       <Link to={`/post/${_id}`}>
-        <div className="w-full bg-gray-100 rounded-xl p-4">
+        <div className="w-full bg-gray-100 rounded-xl p-4 h-76">
           <div className="w-full justify-center mb-4">
             <img
               src={`${import.meta.env.VITE_BACKEND_URL}/images/${postImage}`}

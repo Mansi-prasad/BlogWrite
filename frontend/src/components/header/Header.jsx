@@ -4,7 +4,7 @@ const Header = ({ token, setToken, setUser }) => {
   // console.log("token:", token);
   return (
     <>
-      <header className="py-3 shadow bg-indigo-300 sticky top-0 z-50">
+      <header className="p-3 shadow bg-indigo-300 sticky top-0 z-50 ">
         <Container>
           <nav className="flex">
             <div className="mr-4 w-44">
