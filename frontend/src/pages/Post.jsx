@@ -23,27 +23,27 @@ const Post = ({ url }) => {
         setPost(res.data.post);
       } else {
         toast.error("Error! to load the post");
-        navigate("/");
       }
     } catch (error) {
       console.log("Error to fetch posts: ", error);
       toast.error("Server error! please try again");
-      navigate("/");
     }
   };
 
   const deletePost = async () => {
     try {
       const res = await axios.delete(`${url}/api/post/delete/${post._id}`, {
-        headers: { Authorization: ` ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("del res: ", res);
       if (res.data.success) {
         toast.success("Post deleted successfull!");
         navigate("/");
       }
     } catch (err) {
       console.error("Failed to delete post", err);
-      toast.error("Error! to delete post");
+      const errorMessage = err.response?.data?.message || "Error occurred!";
+      toast.error(errorMessage);
     }
   };
   useEffect(() => {

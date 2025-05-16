@@ -18,7 +18,7 @@ const PostForm = ({ url, post }) => {
         status: post?.status || "active",
       },
     }); // provide so many features
-  console.log("postImage:", post.postImage);
+  // console.log("postImage:", post.postImage);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if ("file") {
@@ -44,6 +44,11 @@ const PostForm = ({ url, post }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        if (res.data.success) {
+          toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
       } else {
         res = await axios.post(`${url}/api/post/create`, postData, {
           headers: {

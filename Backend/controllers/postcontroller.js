@@ -55,20 +55,29 @@ const deletePost = async (req, res) => {
   try {
     const post = await postModel.findById(req.params.id);
     if (!post) {
-      return res.status(400).json({ message: "Post not found " });
+      return res.status(400).json({ message: "Post not found" });
     }
     //delete the post image
     fs.unlink(`uploads/${post.postImage}`, (err) => {
       if (err) {
-        return res.status(400).json({ message: "Error! to delete not " });
+        return res
+          .status(400)
+          .json({ message: "Error! to delete post image." });
       }
     });
     //delete the post data
     await postModel.findByIdAndDelete(req.params.id);
-    return res.json({ success: true, message: "Post Removed from the DB" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Post Removed from the DB" });
+    // } else {
+    //   return res
+    //     .status(500)
+    //     .json({ success: false, message: "Error! to delete post!" });
+    // }
   } catch (err) {
     console.log(err);
-    return res.json({ success: false, message: "Error! to remove the post" });
+    return res.json({ success: false, message: "Server Error!" });
   }
 };
 
@@ -95,9 +104,13 @@ const updatePost = async (req, res) => {
     if (!updatedPost) {
       return res
         .status(404)
-        .json({ success: false, message: "Post not found" });
+        .json({ success: false, message: "Error! to update post" });
     }
-    res.json({ success: true, post: updatedPost });
+    res.json({
+      success: true,
+      post: updatedPost,
+      message: "Post updated successfull!",
+    });
   } catch (error) {
     return res
       .status(500)

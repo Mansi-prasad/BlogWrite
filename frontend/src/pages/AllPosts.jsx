@@ -23,7 +23,7 @@ const AllPosts = ({ url }) => {
     } catch (error) {
       console.log("Error to fetch posts: ", error);
       const errorMessage =
-        error.response?.data?.message || "An unexpected error occurred!";
+        error.response?.data?.message || "Error occurred!";
       toast.error(errorMessage);
     }
   };
